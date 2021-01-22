@@ -4,4 +4,303 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="monstervariants" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="monstervariants" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Harmony">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\BepInEx.Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Preloader">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\BepInEx.Preloader.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Steamworks">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Facepunch.Steamworks.dll</HintPath>
+    </Reference>
+    <Reference Include="HGCSharpUtils">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\HGCSharpUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="HGUnityUtils">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\HGUnityUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="MMHOOK_Assembly-CSharp">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\MMHOOK_Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.RuntimeDetour">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\MonoMod.RuntimeDetour.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.Utils">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\MonoMod.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="R2API">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\R2API.dll</HintPath>
+    </Reference>
+    <Reference Include="Rewired_Core">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Rewired_Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Rewired_CSharp">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Rewired_CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Rewired_Windows_Lib">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Rewired_Windows_Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\System.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.StackTrace">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\System.Diagnostics.StackTrace.dll</HintPath>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\System.EnterpriseServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization.Extensions">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\System.Globalization.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Internals">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\System.ServiceModel.Internals.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath.XDocument">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\System.Xml.XPath.XDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Unity.Postprocessing.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AccessibilityModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ARModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.ARModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.BaselibModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.BaselibModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.ClusterRendererModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CrashReportingModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.CrashReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DirectorModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.DirectorModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.FileSystemHttpModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.FileSystemHttpModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GameCenterModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.GameCenterModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GridModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.GridModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HotReloadModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.LocalizationModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.LocalizationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceReportingModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ProfilerModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.ProfilerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.SharedInternalsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteMaskModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.SpriteMaskModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteShapeModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.SpriteShapeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StreamingModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.StreamingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StyleSheetsModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.StyleSheetsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubstanceModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.SubstanceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.TextCoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TilemapModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.TilemapModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TimelineModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.TimelineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TLSModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.TLSModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UmbraModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UmbraModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UNETModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UNETModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConnectModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityTestProtocolModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VehiclesModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.VehiclesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VFXModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.VFXModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WindModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.WindModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Wwise">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Wwise.dll</HintPath>
+    </Reference>
+    <Reference Include="Zio">
+      <HintPath>..\..\SacrificeFix\LoaderNerf\bin\Debug\netstandard2.0\Zio.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
