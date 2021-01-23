@@ -39,7 +39,7 @@ namespace MonsterVariants.Modules
             cursedJellyfishSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Cursed Jellyfish"), 1f, new ConfigDescription("Chance for Cursed Jellyfish variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
             spectralJellyfishSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Spectral Jellyfish"), 4f, new ConfigDescription("Chance for Spectral Jellyfish variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
 
-            nuclearJellyfishSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Beetle Guard Brute"), 25f, new ConfigDescription("Chance for Beetle Guard Brute variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
+            beetleGuardBruteSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Beetle Guard Brute"), 25f, new ConfigDescription("Chance for Beetle Guard Brute variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
         }
     }
 }
