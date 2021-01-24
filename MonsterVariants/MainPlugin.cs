@@ -2,6 +2,7 @@
 using RoR2;
 using RoR2.Skills;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace MonsterVariants
 {
@@ -92,7 +93,7 @@ namespace MonsterVariants
             {
                 SimpleItem("Clover", 3),
                 SimpleItem("Missile", 1),
-                SimpleItem("Behemoth",1)
+                SimpleItem("Behemoth",3)
             };
 
             // Speedy Beetle
@@ -234,7 +235,7 @@ namespace MonsterVariants
                 bodyName = "Vulture",
                 spawnRate = Modules.Config.artilleryVultureSpawnRate.Value,
                 variantTier = MonsterVariantTier.Uncommon,
-                sizeMultiplier = 2f,
+                sizeMultiplier = 1.2f,
                 healthMultiplier = 1f,
                 moveSpeedMultiplier = 1f,
                 attackSpeedMultiplier = 4f,
@@ -243,7 +244,7 @@ namespace MonsterVariants
                 armorBonus = 100f,
                 customInventory = artilleryInventory,
                 meshReplacement = null,
-                materialReplacement = SimpleMaterialReplacement(solusMat),
+                materialReplacement = MultiMaterialReplacement(new Dictionary<int, Material> { { 0, perforatorMat }, { 2, solusMat } }),
                 skillReplacement = null
             });
         }
@@ -261,6 +262,21 @@ namespace MonsterVariants
             };
 
             return matReplacement;
+        }
+
+        // helper for multiple material replacement, takes a dictionary with <renderer,material>
+        public static MonsterMaterialReplacement[] MultiMaterialReplacement(Dictionary<int, Material> newMaterials)
+        {
+            List<MonsterMaterialReplacement> matReplacement = new List<MonsterMaterialReplacement>();
+            foreach(KeyValuePair<int, Material> kvp in newMaterials)
+            {
+                MonsterMaterialReplacement replacement = ScriptableObject.CreateInstance<MonsterMaterialReplacement>();
+                replacement.rendererIndex = kvp.Key;
+                replacement.material = kvp.Value;
+                matReplacement.Add(replacement);
+            }
+
+            return matReplacement.ToArray();
         }
 
         // helpers for adding simple variants
