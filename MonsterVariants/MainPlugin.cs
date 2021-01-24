@@ -327,7 +327,7 @@ namespace MonsterVariants
                 damageMultiplier = damage,
                 armorMultiplier = armor,
                 armorBonus = armorBonus,
-                customInventory = null,
+                customInventory = SimpleInventory("AlienHead",alienHeads),
                 meshReplacement = null,
                 materialReplacement = replacementMats,
                 skillReplacement = null,
