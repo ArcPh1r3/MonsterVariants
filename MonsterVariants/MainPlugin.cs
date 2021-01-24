@@ -33,6 +33,7 @@ namespace MonsterVariants
             Material visionsMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("LunarPrimaryReplacement").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
             Material ghostMat = Resources.Load<Material>("Materials/matGhostEffect");
             Material shatterspleenMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("BleedOnHitAndExplode").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
+            Material solusMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/RoboBallBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
 
             //Mesh beedlMesh = Modules.Assets.armoredMesh;
             //Mesh beedlSpeedMesh = Modules.Assets.speedyBeetleMesh;
@@ -84,6 +85,14 @@ namespace MonsterVariants
                 SimpleItem("UtilitySkillMagazine", 2),
                 SimpleItem("CritGlasses", 4),
                 SimpleItem("BleedOnHitAndExplode", 1)
+            };
+
+            // Artillery Vulture inventory
+            ItemInfo[] artilleryInventory = new ItemInfo[]
+            {
+                SimpleItem("Clover", 3),
+                SimpleItem("Missile", 1),
+                SimpleItem("Behemoth",1)
             };
 
             // Speedy Beetle
@@ -219,8 +228,26 @@ namespace MonsterVariants
                 skillReplacement = null
             });
 
+            // Artillery Vulture
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Vulture",
+                spawnRate = Modules.Config.artilleryVultureSpawnRate.Value,
+                variantTier = MonsterVariantTier.Uncommon,
+                sizeMultiplier = 2f,
+                healthMultiplier = 1f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 4f,
+                damageMultiplier = 0.5f,
+                armorMultiplier = 1f,
+                armorBonus = 100f,
+                customInventory = artilleryInventory,
+                meshReplacement = null,
+                materialReplacement = SimpleMaterialReplacement(solusMat),
+                skillReplacement = null
+            });
         }
-       
+
         // helper for simplifying mat replacements
         public static MonsterMaterialReplacement[] SimpleMaterialReplacement(Material newMaterial)
         {

@@ -24,6 +24,8 @@ namespace MonsterVariants.Modules
 
         public static ConfigEntry<float> clottedImpSpawnRate;
 
+        public static ConfigEntry<float> artilleryVultureSpawnRate;
+
         public static void ReadConfig()
         {
             armoredBeetleSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Armored Beetle"), 10f, new ConfigDescription("Chance for Armored Beetle variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
@@ -44,6 +46,8 @@ namespace MonsterVariants.Modules
             beetleGuardBruteSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Beetle Guard Brute"), 25f, new ConfigDescription("Chance for Beetle Guard Brute variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
 
             clottedImpSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Clotted Imp"), 5f, new ConfigDescription("Chance for Clotted Imp variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
+
+            artilleryVultureSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Artillery Vulture"), 5f, new ConfigDescription("Chance for Artillery Vulture variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
         }
     }
 }
