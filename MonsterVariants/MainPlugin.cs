@@ -32,6 +32,7 @@ namespace MonsterVariants
             //Material glandMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("BeetleGland").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
             Material visionsMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("LunarPrimaryReplacement").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
             Material ghostMat = Resources.Load<Material>("Materials/matGhostEffect");
+            Material shatterspleenMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("BleedOnHitAndExplode").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
 
             //Mesh beedlMesh = Modules.Assets.armoredMesh;
             //Mesh beedlSpeedMesh = Modules.Assets.speedyBeetleMesh;
@@ -75,6 +76,14 @@ namespace MonsterVariants
                     itemString = "Behemoth",
                     count = 3
                 }
+            };
+
+            // Clotted Imp inventory
+            ItemInfo[] clottedInventory = new ItemInfo[]
+            {
+                SimpleItem("UtilitySkillMagazine", 2),
+                SimpleItem("CritGlasses", 4),
+                SimpleItem("BleedOnHitAndExplode", 1)
             };
 
             // Speedy Beetle
@@ -190,6 +199,26 @@ namespace MonsterVariants
                 materialReplacement = null,
                 skillReplacement = null
             });
+
+            // Clotted Imp
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Imp",
+                spawnRate = Modules.Config.clottedImpSpawnRate.Value,
+                variantTier = MonsterVariantTier.Uncommon,
+                sizeMultiplier = 0.8f,
+                healthMultiplier = 1.2f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 1f,
+                damageMultiplier = 1f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = clottedInventory,
+                meshReplacement = null,
+                materialReplacement = SimpleMaterialReplacement(shatterspleenMat),
+                skillReplacement = null
+            });
+
         }
        
         // helper for simplifying mat replacements
