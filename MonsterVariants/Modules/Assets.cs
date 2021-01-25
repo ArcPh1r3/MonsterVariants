@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace MonsterVariants.Modules
 {
-    public static class Assets
+    internal static class Assets
     {
-        public static AssetBundle mainAssetBundle = null;
+        internal static AssetBundle mainAssetBundle = null;
 
-        public static Mesh armoredMesh;
-        public static Mesh speedyBeetleMesh;
+        internal static Mesh armoredMesh;
+        internal static Mesh speedyBeetleMesh;
 
-        public static void PopulateAssets()
+        internal static void PopulateAssets()
         {
             if (mainAssetBundle == null)
             {

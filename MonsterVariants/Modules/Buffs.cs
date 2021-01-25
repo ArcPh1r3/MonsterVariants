@@ -4,24 +4,28 @@ using UnityEngine;
 
 namespace MonsterVariants.Modules
 {
-    public static class Buffs
+    internal static class Buffs
     {
-        public static BuffIndex toxicBeetleBuff;
+        internal static BuffIndex toxicBeetleBuff;
 
-        public static void RegisterBuffs()
+        internal static void RegisterBuffs()
         {
-            BuffDef toxicBuff = new BuffDef
-            {
-                name = "Toxic",
-                iconPath = "Textures/BuffIcons/texBuffGenericShield",
-                buffColor = Color.green,
-                canStack = false,
-                isDebuff = false,
-                eliteIndex = EliteIndex.None
-            };
+            toxicBeetleBuff = AddNewBuff("Toxic", "Textures/BuffIcons/texBuffGenericShield", Color.green, false, false);
+        }
 
-            CustomBuff toxic = new CustomBuff(toxicBuff);
-            toxicBeetleBuff = BuffAPI.Add(toxic);
+        internal static BuffIndex AddNewBuff(string buffName, string iconPath, Color buffColor, bool canStack, bool isDebuff)
+        {
+            CustomBuff tempBuff = new CustomBuff(new BuffDef
+            {
+                name = buffName,
+                iconPath = iconPath,
+                buffColor = buffColor,
+                canStack = canStack,
+                isDebuff = isDebuff,
+                eliteIndex = EliteIndex.None
+            });
+
+            return BuffAPI.Add(tempBuff);
         }
     }
 }

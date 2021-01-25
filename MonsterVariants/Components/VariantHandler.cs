@@ -1,4 +1,6 @@
-﻿using RoR2;
+﻿using KinematicCharacterController;
+using RoR2;
+using RoR2.Skills;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,7 +11,6 @@ namespace MonsterVariants.Components
         //TODO: sync variant spawns online
 
         public float spawnRate = 1f;
-        public float sizeModifier = 1f;
         public float healthModifier = 1f;
         public float moveSpeedModifier = 1f;
         public float attackSpeedModifier = 1f;
@@ -22,6 +23,7 @@ namespace MonsterVariants.Components
         public MonsterMaterialReplacement[] materialReplacements;
         public MonsterMeshReplacement[] meshReplacements;
         public MonsterSkillReplacement[] skillReplacements;
+        public MonsterSizeModifier sizeModifier;
 
         public BuffIndex buff;
 
@@ -38,7 +40,6 @@ namespace MonsterVariants.Components
 
             this.customInventory = variantInfo.customInventory;
 
-            this.sizeModifier = variantInfo.sizeMultiplier;
             this.healthModifier = variantInfo.healthMultiplier;
             this.moveSpeedModifier = variantInfo.moveSpeedMultiplier;
             this.attackSpeedModifier = variantInfo.attackSpeedMultiplier;
@@ -48,6 +49,8 @@ namespace MonsterVariants.Components
 
             this.meshReplacements = variantInfo.meshReplacement;
             this.materialReplacements = variantInfo.materialReplacement;
+            this.skillReplacements = variantInfo.skillReplacement;
+            this.sizeModifier = variantInfo.sizeModifier;
 
             this.buff = variantInfo.buff;
         }
@@ -150,32 +153,83 @@ namespace MonsterVariants.Components
             }
         }
 
+        private void SwapSkills()
+        {
+            if (this.skillReplacements == null) return;
+
+            SkillLocator skillLocator = this.body.skillLocator;
+
+            if (skillLocator)
+            {
+                for (int i = 0; i < skillReplacements.Length; i++)
+                {
+                    switch (skillReplacements[i].skillSlot)
+                    {
+                        case SkillSlot.Primary:
+                            skillLocator.primary.SetSkillOverride(this.gameObject, skillReplacements[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
+                            break;
+                        case SkillSlot.Secondary:
+                            skillLocator.secondary.SetSkillOverride(this.gameObject, skillReplacements[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
+                            break;
+                        case SkillSlot.Utility:
+                            skillLocator.utility.SetSkillOverride(this.gameObject, skillReplacements[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
+                            break;
+                        case SkillSlot.Special:
+                            skillLocator.special.SetSkillOverride(this.gameObject, skillReplacements[i].skillDef, GenericSkill.SkillOverridePriority.Upgrade);
+                            break;
+                        case SkillSlot.None:
+                            //what are you actually trying to do here??
+                            break;
+                    }
+
+                    // gotta add the missile launcher lmao- maybe a better system for this one day
+                    if (this.skillReplacements[i].skillDef == Modules.Skills.missileLaunchDef)
+                    {
+                        ModelLocator modelLocator = this.body.GetComponent<ModelLocator>();
+                        if (modelLocator)
+                        {
+                            Transform modelTransform = modelLocator.modelTransform;
+                            if (modelTransform) modelTransform.gameObject.AddComponent<AddMissileLauncherToLemurian>();
+                        }
+                    }
+                }
+            }
+        }
+
         private void ApplyBuffs()
         {
-            Debug.Log("applying buffs to " + this.gameObject.name);
-            this.ScaleBody(this.sizeModifier);
             this.ModifyStats();
             this.AddItems();
             this.ModifyModel();
+            this.SwapSkills();
 
             // apply stat changes
             this.body.RecalculateStats();
+
+            this.ScaleBody();
+
+            this.body.healthComponent.health = this.body.healthComponent.fullHealth;
         }
 
-        private void ScaleBody(float modifier)
+        private void ScaleBody()
         {
-            var modelLocator = this.body.GetComponent<ModelLocator>();
+            if (this.sizeModifier == null) return;
+
+            ModelLocator modelLocator = this.body.GetComponent<ModelLocator>();
             if (modelLocator)
             {
                 Transform modelTransform = modelLocator.modelBaseTransform;
                 if (modelTransform)
                 {
-                    modelTransform.localScale *= modifier;
+                    modelTransform.localScale *= this.sizeModifier.newSize;
 
-                    /*foreach (KinematicCharacterMotor kinematicCharacterMotor in this.body.GetComponentsInChildren<KinematicCharacterMotor>())
+                    if (this.sizeModifier.scaleCollider)
                     {
-                        kinematicCharacterMotor.SetCapsuleDimensions(kinematicCharacterMotor.Capsule.radius * modifier, kinematicCharacterMotor.Capsule.height * modifier, modifier);
-                    }*/
+                        foreach (KinematicCharacterMotor kinematicCharacterMotor in this.body.GetComponentsInChildren<KinematicCharacterMotor>())
+                        {
+                            if (kinematicCharacterMotor) kinematicCharacterMotor.SetCapsuleDimensions(kinematicCharacterMotor.Capsule.radius * this.sizeModifier.newSize, kinematicCharacterMotor.Capsule.height * this.sizeModifier.newSize, this.sizeModifier.newSize);
+                        }
+                    }
                 }
             }
         }

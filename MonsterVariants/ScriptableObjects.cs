@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MonsterVariants
 {
     // for storing variant data
-    public class MonsterVariantInfo : ScriptableObject
+    public class MonsterVariantInfo
     {
         // name of the body to apply this variant info to
         public string bodyName;
@@ -24,14 +24,15 @@ namespace MonsterVariants
         public MonsterMaterialReplacement[] materialReplacement;
 
         // replacing skills- also leave null unless you know what you're doing
-        // CURRENTLY NOT IMPLEMENTED
         public MonsterSkillReplacement[] skillReplacement;
+
+        // size multiplier
+        public MonsterSizeModifier sizeModifier;
 
         // buff to spawn monster with
         public BuffIndex buff;
 
         // base stats
-        public float sizeMultiplier;
         public float healthMultiplier;
         public float moveSpeedMultiplier;
         public float attackSpeedMultiplier;
@@ -58,7 +59,7 @@ namespace MonsterVariants
         public Mesh mesh;
     }
 
-    // struct for skill replacements
+    // for skill replacements
     public class MonsterSkillReplacement : ScriptableObject
     {
         // which skill slot to replace
@@ -72,6 +73,15 @@ namespace MonsterVariants
     {
         public string itemString;
         public int count;
+    }
+
+    // for size adjustments
+    public class MonsterSizeModifier : ScriptableObject
+    {
+        // the altered size of the monster
+        public float newSize;
+        // scale colliders as well? useful for flying enemies, gets weird on grounded ones
+        public bool scaleCollider;
     }
 
     public enum MonsterVariantTier

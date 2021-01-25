@@ -9,6 +9,7 @@ namespace MonsterVariants.Modules
         public static ConfigEntry<float> speedyBeetleSpawnRate;
 
         public static ConfigEntry<float> flamethrowerLemurianSpawnRate;
+        public static ConfigEntry<float> badassLemurianSpawnRate;
 
         public static ConfigEntry<float> infernalWispSpawnRate;
 
@@ -19,27 +20,58 @@ namespace MonsterVariants.Modules
         public static ConfigEntry<float> nuclearJellyfishSpawnRate;
         public static ConfigEntry<float> cursedJellyfishSpawnRate;
         public static ConfigEntry<float> spectralJellyfishSpawnRate;
+        public static ConfigEntry<float> MOAJSpawnRate;
 
         public static ConfigEntry<float> beetleGuardBruteSpawnRate;
 
+        public static ConfigEntry<float> clottedImpSpawnRate;
+
+        public static ConfigEntry<float> artilleryVultureSpawnRate;
+
+        public static ConfigEntry<float> speedyBisonSpawnRate;
+        public static ConfigEntry<float> albinoBisonSpawnRate;
+
+        public static ConfigEntry<float> colossalTitanSpawnRate;
+        public static ConfigEntry<float> golemletSpawnRate;
+
         public static void ReadConfig()
         {
-            armoredBeetleSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Armored Beetle"), 10f, new ConfigDescription("Chance for Armored Beetle variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
-            speedyBeetleSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Speedy Beetle"), 30f, new ConfigDescription("Chance for Speedy Beetle variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
+            armoredBeetleSpawnRate = SpawnRateConfig("Armored Beetle", 10f);
+            speedyBeetleSpawnRate = SpawnRateConfig("Speedy Beetle", 30f);
 
-            flamethrowerLemurianSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Flamethrower Lemurian"), 2f, new ConfigDescription("Chance for Flamethrower Lemurian variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
+            flamethrowerLemurianSpawnRate = SpawnRateConfig("Flamethrower Lemurian", 2f);
+            badassLemurianSpawnRate = SpawnRateConfig("Badass Lemurian", 2f);
 
-            infernalWispSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Infernal Wisp"), 2f, new ConfigDescription("Chance for Infernal Wisp variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
+            infernalWispSpawnRate = SpawnRateConfig("Infernal Wisp", 2f);
 
-            fullAutoGolemSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Full-Auto Golem"), 4f, new ConfigDescription("Chance for Full-Auto Golem variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
-            titanletSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Titanlet"), 2f, new ConfigDescription("Chance for Titanlet variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
-            overchargedGolemSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Overcharged Golem"), 2f, new ConfigDescription("Chance for Overcharged Golem variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
+            fullAutoGolemSpawnRate = SpawnRateConfig("Full-Auto Golem", 4f);
+            titanletSpawnRate = SpawnRateConfig("Titanlet", 2f);
+            overchargedGolemSpawnRate = SpawnRateConfig("Overcharged Golem", 2f);
 
-            nuclearJellyfishSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Nuclear Jellyfish"), 5f, new ConfigDescription("Chance for Nuclear Jellyfish variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
-            cursedJellyfishSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Cursed Jellyfish"), 1f, new ConfigDescription("Chance for Cursed Jellyfish variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
-            spectralJellyfishSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Spectral Jellyfish"), 4f, new ConfigDescription("Chance for Spectral Jellyfish variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
+            nuclearJellyfishSpawnRate = SpawnRateConfig("Nuclear Jellyfish", 5f);
+            cursedJellyfishSpawnRate = SpawnRateConfig("Cursed Jellyfish", 1f);
+            spectralJellyfishSpawnRate = SpawnRateConfig("Spectral Jellyfish", 4f);
+            MOAJSpawnRate = SpawnRateConfig("M.O.A.J", 2f);
 
-            nuclearJellyfishSpawnRate = MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", "Beetle Guard Brute"), 25f, new ConfigDescription("Chance for Beetle Guard Brute variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
+            //oops
+            if (nuclearJellyfishSpawnRate.Value == 25f) nuclearJellyfishSpawnRate.Value = 5f;
+
+            beetleGuardBruteSpawnRate = SpawnRateConfig("Beetle Guard Brute", 25f);
+
+            clottedImpSpawnRate = SpawnRateConfig("Clotted Imp", 5f);
+
+            artilleryVultureSpawnRate = SpawnRateConfig("Artillery Vulture", 3f);
+
+            speedyBisonSpawnRate = SpawnRateConfig("Speedy Bison", 30f);
+            albinoBisonSpawnRate = SpawnRateConfig("Albino Bison", 4f);
+
+            golemletSpawnRate = SpawnRateConfig("Golemlet", 2f);
+            colossalTitanSpawnRate = SpawnRateConfig("Colossal Titan", 2f);
+        }
+
+        private static ConfigEntry<float> SpawnRateConfig(string enemyName, float defaultValue)
+        {
+            return MainPlugin.instance.Config.Bind<float>(new ConfigDefinition("01 - Spawn Rates", enemyName), defaultValue, new ConfigDescription("Chance for " + enemyName + " variant to spawn (percentage, 1-100)", null, Array.Empty<object>()));
         }
     }
 }
