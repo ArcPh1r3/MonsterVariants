@@ -1,14 +1,16 @@
 ﻿using KinematicCharacterController;
 using RoR2;
-using RoR2.Skills;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace MonsterVariants.Components
 {
-    public class VariantHandler : MonoBehaviour
+    public class VariantHandler : NetworkBehaviour
     {
-        //TODO: sync variant spawns online
+        //might be synced now?
+
+        [SyncVar]
+        public bool isVariant = false;
 
         public float spawnRate = 1f;
         public float healthModifier = 1f;
@@ -30,7 +32,6 @@ namespace MonsterVariants.Components
         public ItemInfo[] customInventory;
         private CharacterBody body;
         private CharacterMaster master;
-        private Xoroshiro128Plus rng;
 
         public void Init(MonsterVariantInfo variantInfo)
         {
@@ -55,14 +56,16 @@ namespace MonsterVariants.Components
             this.buff = variantInfo.buff;
         }
 
+        private void Awake()
+        {
+            if (!NetworkServer.active) return;
+
+            if (Util.CheckRoll(this.spawnRate)) this.isVariant = true;
+        }
+
         private void Start()
         {
-            if (NetworkServer.active)
-            {
-                this.rng = new Xoroshiro128Plus(Run.instance.treasureRng.nextUlong);
-            }
-
-            if (Util.CheckRoll(this.spawnRate))
+            if (this.isVariant)
             {
                 this.body = base.GetComponent<CharacterBody>();
                 if (this.body)

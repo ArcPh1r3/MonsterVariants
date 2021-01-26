@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.2.0")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.2.2")]
 
     public class MainPlugin : BaseUnityPlugin
     {
@@ -175,7 +175,7 @@ namespace MonsterVariants
                 skillReplacement = SecondaryReplacement(Modules.Skills.nuclearNovaDef)
             });
 
-            // M.O.A.J
+            // M.O.A.J.
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Jellyfish",
@@ -203,7 +203,7 @@ namespace MonsterVariants
                 sizeModifier = null,
                 healthMultiplier = 1f,
                 moveSpeedMultiplier = 1f,
-                attackSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 10f,
                 damageMultiplier = 1f,
                 armorMultiplier = 1f,
                 armorBonus = 0f,
