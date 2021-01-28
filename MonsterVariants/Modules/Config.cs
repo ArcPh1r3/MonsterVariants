@@ -27,6 +27,7 @@ namespace MonsterVariants.Modules
         public static ConfigEntry<float> clottedImpSpawnRate;
 
         public static ConfigEntry<float> artilleryVultureSpawnRate;
+        public static ConfigEntry<float> gunVultureSpawnRate;
 
         public static ConfigEntry<float> speedyBisonSpawnRate;
         public static ConfigEntry<float> albinoBisonSpawnRate;
@@ -61,6 +62,7 @@ namespace MonsterVariants.Modules
             clottedImpSpawnRate = SpawnRateConfig("Clotted Imp", 5f);
 
             artilleryVultureSpawnRate = SpawnRateConfig("Artillery Vulture", 3f);
+            gunVultureSpawnRate = SpawnRateConfig("Alloy Deagle", 2f);
 
             speedyBisonSpawnRate = SpawnRateConfig("Speedy Bison", 30f);
             albinoBisonSpawnRate = SpawnRateConfig("Albino Bison", 4f);

@@ -11,6 +11,8 @@ namespace MonsterVariants.Modules
         internal static Mesh armoredMesh;
         internal static Mesh speedyBeetleMesh;
 
+        internal static GameObject pistolPrefab;
+
         internal static void PopulateAssets()
         {
             if (mainAssetBundle == null)
@@ -25,6 +27,9 @@ namespace MonsterVariants.Modules
 
             armoredMesh = mainAssetBundle.LoadAsset<Mesh>("meshArmoredBeetle");
             speedyBeetleMesh = mainAssetBundle.LoadAsset<Mesh>("meshSpeedyBeetle");
+
+            pistolPrefab = mainAssetBundle.LoadAsset<GameObject>("VulturePistol");
+            pistolPrefab.GetComponentInChildren<MeshRenderer>().material.shader = Resources.Load<Shader>("Shaders/Deferred/hgstandard");
         }
     }
 }

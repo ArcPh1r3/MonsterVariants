@@ -1,5 +1,6 @@
 ﻿using KinematicCharacterController;
 using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -148,11 +149,42 @@ namespace MonsterVariants.Components
                 // replace meshes
                 if (this.meshReplacements.Length > 0)
                 {
+                    // only run this method on beetles- don't bother changing it for now since there's no other mesh replacements
+                    this.FuckWithBoneStructure();
+
                     for (int i = 0; i < this.meshReplacements.Length; i++)
                     {
                         model.baseRendererInfos[this.meshReplacements[i].rendererIndex].renderer.GetComponent<SkinnedMeshRenderer>().sharedMesh = this.meshReplacements[i].mesh;
                     }
                 }
+            }
+        }
+
+        private void FuckWithBoneStructure()
+        {
+            List<Transform> t = new List<Transform>();
+
+            foreach (var item in this.body.GetComponentsInChildren<Transform>())
+            {
+                if (!item.name.Contains("Hurtbox") && !item.name.Contains("BeetleBody") && !item.name.Contains("Mesh") && !item.name.Contains("mdl"))
+                {
+                    t.Add(item);
+                }
+            }
+
+            Transform temp = t[14];
+            t[14] = t[11];
+            t[11] = temp;
+            temp = t[15];
+            t[15] = t[12];
+            t[12] = temp;
+            temp = t[16];
+            t[16] = t[13];
+            t[13] = temp;
+
+            foreach (var item in this.body.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                item.bones = t.ToArray();
             }
         }
 
@@ -193,6 +225,17 @@ namespace MonsterVariants.Components
                         {
                             Transform modelTransform = modelLocator.modelTransform;
                             if (modelTransform) modelTransform.gameObject.AddComponent<AddMissileLauncherToLemurian>();
+                        }
+                    }
+
+                    // aaaaand hardcoding more bullshit
+                    if (this.skillReplacements[i].skillDef == Modules.Skills.doubleTapDef)
+                    {
+                        ModelLocator modelLocator = this.body.GetComponent<ModelLocator>();
+                        if (modelLocator)
+                        {
+                            Transform modelTransform = modelLocator.modelTransform;
+                            if (modelTransform) modelTransform.gameObject.AddComponent<AddGunToVulture>();
                         }
                     }
                 }

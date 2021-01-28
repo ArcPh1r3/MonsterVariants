@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.2.2")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.2.3")]
 
     public class MainPlugin : BaseUnityPlugin
     {
@@ -20,7 +20,7 @@ namespace MonsterVariants
 
             // load assets and config before doing anything
             //  currently not loading any assets so no point running this
-            //Modules.Assets.PopulateAssets();
+            Modules.Assets.PopulateAssets();
             Modules.Config.ReadConfig();
             Modules.Skills.RegisterSkills();
 
@@ -40,11 +40,11 @@ namespace MonsterVariants
             Material solusMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/RoboBallBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
             missileLauncherDisplayPrefab = itemDisplayRuleSet.FindEquipmentDisplayRuleGroup("CommandMissile").rules[0].followerPrefab;
 
-            //Mesh beedlMesh = Modules.Assets.armoredMesh;
+            Mesh beedlMesh = Modules.Assets.armoredMesh;
             //Mesh beedlSpeedMesh = Modules.Assets.speedyBeetleMesh;
 
             // add simple variants
-            AddSimpleVariant("Beetle", Modules.Config.armoredBeetleSpawnRate.Value, MonsterVariantTier.Common, GroundSizeModifier(1.5f), 3f, 1f, 1f, 1f, 1f, 0f, 20);// Armored
+            AddSimpleVariant("Beetle", Modules.Config.armoredBeetleSpawnRate.Value, MonsterVariantTier.Common, GroundSizeModifier(1.5f), 3f, 1f, 1f, 1f, 1f, 0f, 20, beedlMesh);// Armored
             AddSimpleVariant("Golem", Modules.Config.fullAutoGolemSpawnRate.Value, MonsterVariantTier.Rare, null, 1f, 1f, 8f, 0.8f, 1f, -20f, 20, lunarGolemMat);// Full-Auto
             AddSimpleVariant("Golem", Modules.Config.titanletSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(2.5f), 4f, 0.5f, 1f, 3f, 1f, 0f);// Titanlet
             AddSimpleVariant("BeetleGuard", Modules.Config.beetleGuardBruteSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(1.1f), 2f, 0.5f, 0.9f, 1.4f, 1f, 10f); // Brute
@@ -202,9 +202,9 @@ namespace MonsterVariants
                 variantTier = MonsterVariantTier.Common,
                 sizeModifier = null,
                 healthMultiplier = 1f,
-                moveSpeedMultiplier = 1f,
-                attackSpeedMultiplier = 10f,
-                damageMultiplier = 1f,
+                moveSpeedMultiplier = 3f,
+                attackSpeedMultiplier = 2f,
+                damageMultiplier = 10f,
                 armorMultiplier = 1f,
                 armorBonus = 0f,
                 customInventory = fullShieldInventory,
@@ -307,6 +307,25 @@ namespace MonsterVariants
                 materialReplacement = MultiMaterialReplacement(new Dictionary<int, Material> { { 0, perforatorMat }, { 2, solusMat } }),
                 skillReplacement = null
             });
+
+            // Gun Vulture
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Vulture",
+                spawnRate = Modules.Config.gunVultureSpawnRate.Value,
+                variantTier = MonsterVariantTier.Rare,
+                sizeModifier = null,
+                healthMultiplier = 1f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 1f,
+                damageMultiplier = 1f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = null,
+                meshReplacement = null,
+                materialReplacement = null,
+                skillReplacement = PrimaryReplacement(Modules.Skills.doubleTapDef)
+            });
         }
        
         // helper for simplifying mat replacements
@@ -351,6 +370,35 @@ namespace MonsterVariants
             return matReplacement.ToArray();
         }
 
+        // helper for simplifying mesh replacements
+        public static MonsterMeshReplacement[] SimpleMeshReplacement(Mesh newMesh)
+        {
+            return SimpleMeshReplacement(newMesh, 0);
+        }
+
+        public static MonsterMeshReplacement[] SimpleMeshReplacement(Mesh newMesh, int index)
+        {
+            MonsterMeshReplacement replacement = ScriptableObject.CreateInstance<MonsterMeshReplacement>();
+            replacement.rendererIndex = index;
+            replacement.mesh = newMesh;
+
+            MonsterMeshReplacement[] meshReplacement = new MonsterMeshReplacement[]
+            {
+                replacement
+            };
+
+            return meshReplacement;
+        }
+
+        public static MonsterMeshReplacement SingleMeshReplacement(Mesh newMesh, int index)
+        {
+            MonsterMeshReplacement replacement = ScriptableObject.CreateInstance<MonsterMeshReplacement>();
+            replacement.rendererIndex = index;
+            replacement.mesh = newMesh;
+
+            return replacement;
+        }
+
         // helpers for adding simple variants
         internal static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus)
         {
@@ -377,6 +425,9 @@ namespace MonsterVariants
             MonsterMaterialReplacement[] replacementMats = null;
             if (replacementMaterial != null) replacementMats = SimpleMaterialReplacement(replacementMaterial);
 
+            MonsterMeshReplacement[] replacementMeshes = null;
+            if (replacementMesh != null) replacementMeshes = SimpleMeshReplacement(replacementMesh);
+
             MonsterVariantInfo newInfo = new MonsterVariantInfo
             {
                 bodyName = bodyName,
@@ -390,7 +441,7 @@ namespace MonsterVariants
                 armorMultiplier = armor,
                 armorBonus = armorBonus,
                 customInventory = SimpleInventory("AlienHead", alienHeads),
-                meshReplacement = null,
+                meshReplacement = replacementMeshes,
                 materialReplacement = replacementMats,
                 skillReplacement = null,
                 buff = BuffIndex.None

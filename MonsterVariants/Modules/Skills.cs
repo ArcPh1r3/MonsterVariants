@@ -1,6 +1,7 @@
 ﻿using EntityStates;
 using MonsterVariants.Modules.States;
 using R2API;
+using RoR2;
 using RoR2.Skills;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace MonsterVariants.Modules
         internal static SkillDef nuclearNovaDef;
         internal static SkillDef spawnNovaDef;
 
+        internal static SkillDef doubleTapDef;
+
         internal static void RegisterSkills()
         {
             LoadoutAPI.AddSkill(typeof(LaunchMissile));
@@ -22,6 +25,8 @@ namespace MonsterVariants.Modules
             missileLaunchDef = NewSkillDef(new SerializableEntityStateType(typeof(LaunchMissile)), "Weapon");
             nuclearNovaDef = NewSkillDef(new SerializableEntityStateType(typeof(NuclearNova)), "Body");
             spawnNovaDef = NewSkillDef(new SerializableEntityStateType(typeof(SpawnNova)), "Body");
+
+            doubleTapDef = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<SkillLocator>().primary.skillFamily.variants[0].skillDef;
         }
 
         private static SkillDef NewSkillDef(SerializableEntityStateType state, string stateMachine)
