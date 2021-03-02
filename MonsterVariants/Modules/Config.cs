@@ -44,6 +44,8 @@ namespace MonsterVariants.Modules
         public static ConfigEntry<float> colossalTitanSpawnRate;
         public static ConfigEntry<float> golemletSpawnRate;
 
+        public static ConfigEntry<float> dreamScavSpawnRate;
+
         public static void ReadConfig()
         {
             armoredBeetleSpawnRate = SpawnRateConfig("Armored Beetle", 10f);
@@ -87,6 +89,8 @@ namespace MonsterVariants.Modules
 
             golemletSpawnRate = SpawnRateConfig("Golemlet", 2f);
             colossalTitanSpawnRate = SpawnRateConfig("Colossal Titan", 2f);
+
+            dreamScavSpawnRate = SpawnRateConfig("Dream Scavenger", 10f);
         }
 
         private static ConfigEntry<float> SpawnRateConfig(string enemyName, float defaultValue)

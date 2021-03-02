@@ -21,6 +21,8 @@ namespace MonsterVariants.Modules
 
         internal static SkillDef parentTeleportDef;
 
+        internal static SkillDef dreamLuckDef;
+
         internal static SkillDef wispCannonDef;
 
         internal static void RegisterSkills()
@@ -32,6 +34,8 @@ namespace MonsterVariants.Modules
             LoadoutAPI.AddSkill(typeof(LaunchingHeadbutt));
             LoadoutAPI.AddSkill(typeof(ChargeWispCannon));
             LoadoutAPI.AddSkill(typeof(ParentWarp));
+            LoadoutAPI.AddSkill(typeof(EnterLuckySit));
+            LoadoutAPI.AddSkill(typeof(DreamLuck));
 
             missileLaunchDef = NewSkillDef(new SerializableEntityStateType(typeof(LaunchMissile)), "Weapon");
             nuclearNovaDef = NewSkillDef(new SerializableEntityStateType(typeof(NuclearNova)), "Body");
@@ -42,7 +46,15 @@ namespace MonsterVariants.Modules
             parentTeleportDef = NewSkillDef(new SerializableEntityStateType(typeof(ParentWarp)), "Body");
 
             parentTeleportDef.baseMaxStock = 2;
-            parentTeleportDef.baseRechargeInterval = 4f;
+            parentTeleportDef.baseRechargeInterval = 8f;
+            parentTeleportDef.requiredStock = 1;
+            parentTeleportDef.stockToConsume = 1;
+
+            dreamLuckDef = NewSkillDef(new SerializableEntityStateType(typeof(EnterLuckySit)), "Body");
+            dreamLuckDef.baseMaxStock = 1;
+            dreamLuckDef.baseRechargeInterval = 24f;
+            dreamLuckDef.requiredStock = 1;
+            dreamLuckDef.stockToConsume = 1;
 
             doubleTapDef = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<SkillLocator>().primary.skillFamily.variants[0].skillDef;
         }

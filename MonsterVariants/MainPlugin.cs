@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.1")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.3")]
 
     public class MainPlugin : BaseUnityPlugin
     {
@@ -54,10 +54,11 @@ namespace MonsterVariants
             AddSimpleVariant("Golem", Modules.Config.titanletSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(2.5f), 4f, 0.5f, 1f, 3f, 1f, 0f);// Titanlet
             AddSimpleVariant("BeetleGuard", Modules.Config.beetleGuardBruteSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(1.1f), 2f, 0.5f, 0.9f, 1.4f, 1f, 10f); // Brute
             AddSimpleVariant("Bison", Modules.Config.speedyBisonSpawnRate.Value, MonsterVariantTier.Common, null, 1f, 4f, 1f, 1f, 1f, 0f); // Speedy
-            AddSimpleVariant("Bison", Modules.Config.speedyBisonSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(1.25f), 3f, 1f, 1f, 1f, 1f, 20f, 0, skeltalMat); // Albino
 
             AddSimpleVariant("Titan", Modules.Config.golemletSpawnRate.Value, MonsterVariantTier.Common, GroundSizeModifier(0.3f), 1f, 5f, 1f, 1f, 1f, 0f, 0); // Golemlet
             AddSimpleVariant("Titan", Modules.Config.colossalTitanSpawnRate.Value, MonsterVariantTier.Rare, GroundSizeModifier(3f), 3f, 0.5f, 1f, 2f, 1f, 50f, 3); // Colossus
+
+            AddSimpleVariant("Vagrant", 50f, MonsterVariantTier.Common, null, 1f, 1f, 1f, 1f, 1f, -40f); // Unstable Vagrant
 
             // flushed
             AddSimpleVariant("BeetleQueen2", 2, MonsterVariantTier.Common, GroundSizeModifier(0.25f), 0.8f, 5f, 1f, 1f, 1f, 0f); // Stupid
@@ -321,7 +322,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Golem",
-                spawnRate = 50f,
+                spawnRate = Modules.Config.rushGolemSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = GroundSizeModifier(0.6f),
                 healthMultiplier = 0.9f,
@@ -397,7 +398,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Wisp",
-                spawnRate = 50f,
+                spawnRate = Modules.Config.almostButNotQuiteGreatWispSpawnRate.Value,
                 variantTier = MonsterVariantTier.Uncommon,
                 sizeModifier = FlyingSizeModifier(1.1f),
                 healthMultiplier = 3f,
@@ -428,6 +429,25 @@ namespace MonsterVariants
                 customInventory = SimpleInventory("AlienHead", 5),
                 meshReplacement = null,
                 materialReplacement = MultiMaterialReplacement(new Dictionary<int, Material> { { 0, flameTrailMat }, { 1, wispFlameMat } }),
+                skillReplacement = null
+            });
+
+            // Albino Bison
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Bison",
+                spawnRate = Modules.Config.albinoBisonSpawnRate.Value,
+                variantTier = MonsterVariantTier.Common,
+                sizeModifier = GroundSizeModifier(1.2f),
+                healthMultiplier = 2f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 1f,
+                damageMultiplier = 1.5f,
+                armorMultiplier = 1f,
+                armorBonus = 50f,
+                customInventory = null,
+                meshReplacement = null,
+                materialReplacement = MultiMaterialReplacement(new Dictionary<int, Material> { { 0, skeltalMat }, { 1, null } }),
                 skillReplacement = null
             });
 
@@ -487,8 +507,28 @@ namespace MonsterVariants
                 materialReplacement = null,
                 skillReplacement = PrimaryReplacement(Modules.Skills.doubleTapDef)
             });
+
+            // Dream Scavenger
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Scav",
+                spawnRate = Modules.Config.dreamScavSpawnRate.Value,
+                variantTier = MonsterVariantTier.Common,
+                sizeModifier = null,
+                healthMultiplier = 1f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 1f,
+                damageMultiplier = 1f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = null,
+                meshReplacement = null,
+                materialReplacement = null,
+                skillReplacement = UtilityReplacement(Modules.Skills.dreamLuckDef)
+            });
+
         }
-       
+
         // helper for simplifying mat replacements
         public static MonsterMaterialReplacement[] SimpleMaterialReplacement(Material newMaterial)
         {
