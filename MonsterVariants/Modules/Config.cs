@@ -7,15 +7,23 @@ namespace MonsterVariants.Modules
     {
         public static ConfigEntry<float> armoredBeetleSpawnRate;
         public static ConfigEntry<float> speedyBeetleSpawnRate;
+        public static ConfigEntry<float> toxicBeetleSpawnRate;
+        public static ConfigEntry<float> battleBeetleSpawnRate;
 
         public static ConfigEntry<float> flamethrowerLemurianSpawnRate;
         public static ConfigEntry<float> badassLemurianSpawnRate;
 
+        public static ConfigEntry<float> moltenElderLemurianSpawnRate;
+
         public static ConfigEntry<float> infernalWispSpawnRate;
+        public static ConfigEntry<float> almostButNotQuiteGreatWispSpawnRate;
+
+        public static ConfigEntry<float> greatestWispSpawnRate;
 
         public static ConfigEntry<float> fullAutoGolemSpawnRate;
         public static ConfigEntry<float> titanletSpawnRate;
         public static ConfigEntry<float> overchargedGolemSpawnRate;
+        public static ConfigEntry<float> rushGolemSpawnRate;
 
         public static ConfigEntry<float> nuclearJellyfishSpawnRate;
         public static ConfigEntry<float> cursedJellyfishSpawnRate;
@@ -23,6 +31,7 @@ namespace MonsterVariants.Modules
         public static ConfigEntry<float> MOAJSpawnRate;
 
         public static ConfigEntry<float> beetleGuardBruteSpawnRate;
+        public static ConfigEntry<float> beetleGuardSharpshooterSpawnRate;
 
         public static ConfigEntry<float> clottedImpSpawnRate;
 
@@ -39,15 +48,23 @@ namespace MonsterVariants.Modules
         {
             armoredBeetleSpawnRate = SpawnRateConfig("Armored Beetle", 10f);
             speedyBeetleSpawnRate = SpawnRateConfig("Speedy Beetle", 30f);
+            toxicBeetleSpawnRate = SpawnRateConfig("Toxic Beetle", 2f);
+            battleBeetleSpawnRate = SpawnRateConfig("Battle Beetle", 2f);
 
             flamethrowerLemurianSpawnRate = SpawnRateConfig("Flamethrower Lemurian", 2f);
             badassLemurianSpawnRate = SpawnRateConfig("Badass Lemurian", 2f);
 
+            moltenElderLemurianSpawnRate = SpawnRateConfig("Molten Elder Lemurian", 2f);
+
             infernalWispSpawnRate = SpawnRateConfig("Infernal Wisp", 2f);
+            almostButNotQuiteGreatWispSpawnRate = SpawnRateConfig("Almost-But-Not-Quite-Great Wisp", 8f);
+
+            greatestWispSpawnRate = SpawnRateConfig("Greatest Wisp", 2f);
 
             fullAutoGolemSpawnRate = SpawnRateConfig("Full-Auto Golem", 4f);
             titanletSpawnRate = SpawnRateConfig("Titanlet", 2f);
             overchargedGolemSpawnRate = SpawnRateConfig("Overcharged Golem", 2f);
+            rushGolemSpawnRate = SpawnRateConfig("Rush Golem", 2f);
 
             nuclearJellyfishSpawnRate = SpawnRateConfig("Nuclear Jellyfish", 5f);
             cursedJellyfishSpawnRate = SpawnRateConfig("Cursed Jellyfish", 1f);
@@ -55,9 +72,10 @@ namespace MonsterVariants.Modules
             MOAJSpawnRate = SpawnRateConfig("M.O.A.J", 2f);
 
             //oops
-            if (nuclearJellyfishSpawnRate.Value == 25f) nuclearJellyfishSpawnRate.Value = 5f;
+            if (nuclearJellyfishSpawnRate.Value == 5f) nuclearJellyfishSpawnRate.Value = 1f;
 
             beetleGuardBruteSpawnRate = SpawnRateConfig("Beetle Guard Brute", 25f);
+            beetleGuardSharpshooterSpawnRate = SpawnRateConfig("Beetle Guard Sharpshooter", 5f);
 
             clottedImpSpawnRate = SpawnRateConfig("Clotted Imp", 5f);
 

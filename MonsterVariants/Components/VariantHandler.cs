@@ -8,8 +8,6 @@ namespace MonsterVariants.Components
 {
     public class VariantHandler : NetworkBehaviour
     {
-        //might be synced now?
-
         [SyncVar]
         public bool isVariant = false;
 
@@ -33,6 +31,8 @@ namespace MonsterVariants.Components
         public ItemInfo[] customInventory;
         private CharacterBody body;
         private CharacterMaster master;
+        private EquipmentIndex storedEquipment;
+        private ItemDisplayRuleSet storedIDRS;
 
         public void Init(MonsterVariantInfo variantInfo)
         {
@@ -62,6 +62,15 @@ namespace MonsterVariants.Components
             if (!NetworkServer.active) return;
 
             if (Util.CheckRoll(this.spawnRate)) this.isVariant = true;
+
+            if (this.meshReplacements != null && this.isVariant)
+            {
+                if (this.meshReplacements.Length > 0)
+                {
+                    this.storedIDRS = this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet;
+                    this.GetComponentInChildren<CharacterModel>().itemDisplayRuleSet = null;
+                }
+            }
         }
 
         private void Start()
@@ -144,6 +153,11 @@ namespace MonsterVariants.Components
                     {
                         model.baseRendererInfos[this.materialReplacements[i].rendererIndex].defaultMaterial = this.materialReplacements[i].material;
                     }
+
+                    if (body.name == "GolemBody(Clone)")
+                    {
+                        model.baseLightInfos[0].defaultColor = Color.blue;
+                    }
                 }
 
                 // replace meshes
@@ -160,8 +174,27 @@ namespace MonsterVariants.Components
             }
         }
 
+        private void RestoreEquipment()
+        {
+            CharacterModel model = null;
+            ModelLocator modelLocator = this.body.GetComponent<ModelLocator>();
+            if (modelLocator)
+            {
+                Transform modelTransform = modelLocator.modelTransform;
+                if (modelTransform) model = modelTransform.GetComponent<CharacterModel>();
+            }
+
+            if (model && this.storedIDRS != null) model.itemDisplayRuleSet = this.storedIDRS;
+
+            this.master.inventory.SetEquipmentIndex(this.storedEquipment);
+        }
+
         private void FuckWithBoneStructure()
         {
+            this.storedEquipment = this.master.inventory.GetEquipmentIndex();
+            this.master.inventory.SetEquipmentIndex(EquipmentIndex.None);
+            this.Invoke("RestoreEquipment", 0.2f);
+
             List<Transform> t = new List<Transform>();
 
             foreach (var item in this.body.GetComponentsInChildren<Transform>())

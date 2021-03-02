@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.2.3")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.1")]
 
     public class MainPlugin : BaseUnityPlugin
     {
@@ -18,8 +18,6 @@ namespace MonsterVariants
         {
             instance = this;
 
-            // load assets and config before doing anything
-            //  currently not loading any assets so no point running this
             Modules.Assets.PopulateAssets();
             Modules.Config.ReadConfig();
             Modules.Skills.RegisterSkills();
@@ -32,12 +30,20 @@ namespace MonsterVariants
             // gather materials and meshes to use for variants
             ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
             Material lunarGolemMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            Material goldTitanMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/TitanGoldBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[19].defaultMaterial);
             Material perforatorMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("FireballsOnHit").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
-            //Material glandMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("BeetleGland").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
+            Material glandMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("BeetleGland").rules[0].followerPrefab.GetComponentInChildren<Renderer>().material);
             Material visionsMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("LunarPrimaryReplacement").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
             Material ghostMat = Resources.Load<Material>("Materials/matGhostEffect");
             Material shatterspleenMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("BleedOnHitAndExplode").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
             Material solusMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/RoboBallBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            Material flameTrailMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/ProjectileGhosts/FireMeatBallGhost").GetComponentInChildren<TrailRenderer>().material);
+            Material dunestriderMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/ClayBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[2].defaultMaterial);
+            Material blueFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/Effects/MuzzleFlashes/MuzzleflashLunarGolemTwinShot").transform.Find("FlameCloud_Ps").GetComponent<ParticleSystemRenderer>().material);
+            Material wispFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/WispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[1].defaultMaterial);
+            Material greaterWispFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[1].defaultMaterial);
+            Material greaterWispBodyMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            Material skeltalMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/Effects/BrotherDashEffect").transform.Find("Donut").GetComponent<ParticleSystemRenderer>().material);
             missileLauncherDisplayPrefab = itemDisplayRuleSet.FindEquipmentDisplayRuleGroup("CommandMissile").rules[0].followerPrefab;
 
             Mesh beedlMesh = Modules.Assets.armoredMesh;
@@ -45,11 +51,10 @@ namespace MonsterVariants
 
             // add simple variants
             AddSimpleVariant("Beetle", Modules.Config.armoredBeetleSpawnRate.Value, MonsterVariantTier.Common, GroundSizeModifier(1.5f), 3f, 1f, 1f, 1f, 1f, 0f, 20, beedlMesh);// Armored
-            AddSimpleVariant("Golem", Modules.Config.fullAutoGolemSpawnRate.Value, MonsterVariantTier.Rare, null, 1f, 1f, 8f, 0.8f, 1f, -20f, 20, lunarGolemMat);// Full-Auto
             AddSimpleVariant("Golem", Modules.Config.titanletSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(2.5f), 4f, 0.5f, 1f, 3f, 1f, 0f);// Titanlet
             AddSimpleVariant("BeetleGuard", Modules.Config.beetleGuardBruteSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(1.1f), 2f, 0.5f, 0.9f, 1.4f, 1f, 10f); // Brute
             AddSimpleVariant("Bison", Modules.Config.speedyBisonSpawnRate.Value, MonsterVariantTier.Common, null, 1f, 4f, 1f, 1f, 1f, 0f); // Speedy
-            AddSimpleVariant("Bison", Modules.Config.speedyBisonSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(1.25f), 3f, 1f, 1f, 1f, 1f, 20f, 0, lunarGolemMat); // Albino
+            AddSimpleVariant("Bison", Modules.Config.speedyBisonSpawnRate.Value, MonsterVariantTier.Uncommon, GroundSizeModifier(1.25f), 3f, 1f, 1f, 1f, 1f, 20f, 0, skeltalMat); // Albino
 
             AddSimpleVariant("Titan", Modules.Config.golemletSpawnRate.Value, MonsterVariantTier.Common, GroundSizeModifier(0.3f), 1f, 5f, 1f, 1f, 1f, 0f, 0); // Golemlet
             AddSimpleVariant("Titan", Modules.Config.colossalTitanSpawnRate.Value, MonsterVariantTier.Rare, GroundSizeModifier(3f), 3f, 0.5f, 1f, 2f, 1f, 50f, 3); // Colossus
@@ -59,7 +64,11 @@ namespace MonsterVariants
 
 
             // Generic CDR inventory
-            ItemInfo[] rapidFireInventory = SimpleInventory("AlienHead", 20);
+            ItemInfo[] rapidFireInventory = new ItemInfo[]    
+            {
+                SimpleItem("AlienHead", 20),
+                SimpleItem("SecondarySkillMagazine", 20)
+            };
 
             // Full Shield inventory
             ItemInfo[] fullShieldInventory = SimpleInventory("ShieldOnly");
@@ -118,6 +127,63 @@ namespace MonsterVariants
                 skillReplacement = null
             });
 
+            // Toxic Beetle
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Beetle",
+                spawnRate = Modules.Config.toxicBeetleSpawnRate.Value,
+                variantTier = MonsterVariantTier.Rare,
+                sizeModifier = null,
+                healthMultiplier = 1f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 1f,
+                damageMultiplier = 1f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = null,
+                meshReplacement = null,
+                materialReplacement = SimpleMaterialReplacement(glandMat),
+                skillReplacement = PrimaryReplacement(Modules.Skills.toxicExplosionDef)
+            });
+
+            // Battle Beetle
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Beetle",
+                spawnRate = Modules.Config.battleBeetleSpawnRate.Value,
+                variantTier = MonsterVariantTier.Common,
+                sizeModifier = null,
+                healthMultiplier = 1f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 1f,
+                damageMultiplier = 2f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = null,
+                meshReplacement = null,
+                materialReplacement = null,
+                skillReplacement = PrimaryReplacement(Modules.Skills.heavyHeadbuttDef)
+            });
+
+            // Sharpshooter Beetle Guard
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "BeetleGuard",
+                spawnRate = Modules.Config.beetleGuardSharpshooterSpawnRate.Value,
+                variantTier = MonsterVariantTier.Common,
+                sizeModifier = GroundSizeModifier(0.8f),
+                healthMultiplier = 0.8f,
+                moveSpeedMultiplier = 0.6f,
+                attackSpeedMultiplier = 3f,
+                damageMultiplier = 0.4f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = SimpleInventory("AlienHead", 10),
+                meshReplacement = null,
+                materialReplacement = null,
+                skillReplacement = null
+            });
+
             // Flamethrower Lemurian
             AddVariant(new MonsterVariantInfo
             {
@@ -128,7 +194,7 @@ namespace MonsterVariants
                 healthMultiplier = 1f,
                 moveSpeedMultiplier = 1f,
                 attackSpeedMultiplier = 30f,
-                damageMultiplier = 0.4f,
+                damageMultiplier = 0.6f,
                 armorMultiplier = 1f,
                 armorBonus = 0f,
                 customInventory = rapidFireInventory,
@@ -154,6 +220,25 @@ namespace MonsterVariants
                 meshReplacement = null,
                 materialReplacement = null,
                 skillReplacement = PrimaryReplacement(Modules.Skills.missileLaunchDef)
+            });
+
+            // Molten Elder Lemurian
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "LemurianBruiser",
+                spawnRate = Modules.Config.moltenElderLemurianSpawnRate.Value,
+                variantTier = MonsterVariantTier.Uncommon,
+                sizeModifier = GroundSizeModifier(1.2f),
+                healthMultiplier = 0.8f,
+                moveSpeedMultiplier = 0.5f,
+                attackSpeedMultiplier = 0.8f,
+                damageMultiplier = 1.2f,
+                armorMultiplier = 1f,
+                armorBonus = 500f,
+                customInventory = null,
+                meshReplacement = null,
+                materialReplacement = SimpleMaterialReplacement(flameTrailMat),
+                skillReplacement = null
             });
 
             // Nuclear Jellyfish
@@ -194,6 +279,25 @@ namespace MonsterVariants
                 skillReplacement = SecondaryReplacement(Modules.Skills.spawnNovaDef)
             });
 
+            // Full-Auto Golem
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Golem",
+                spawnRate = Modules.Config.fullAutoGolemSpawnRate.Value,
+                variantTier = MonsterVariantTier.Rare,
+                sizeModifier = null,
+                healthMultiplier = 1f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 8f,
+                damageMultiplier = 0.8f,
+                armorMultiplier = 1f,
+                armorBonus = -20f,
+                customInventory = rapidFireInventory,
+                meshReplacement = null,
+                materialReplacement = SimpleMaterialReplacement(lunarGolemMat),
+                skillReplacement = null
+            });
+
             // Overcharged Golem
             AddVariant(new MonsterVariantInfo
             {
@@ -211,6 +315,25 @@ namespace MonsterVariants
                 meshReplacement = null,
                 materialReplacement = null,
                 skillReplacement = null
+            });
+
+            // Rush Golem
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Golem",
+                spawnRate = 50f,
+                variantTier = MonsterVariantTier.Rare,
+                sizeModifier = GroundSizeModifier(0.6f),
+                healthMultiplier = 0.9f,
+                moveSpeedMultiplier = 1.6f,
+                attackSpeedMultiplier = 1.6f,
+                damageMultiplier = 2f,
+                armorMultiplier = 1f,
+                armorBonus = 100f,
+                customInventory = null,
+                meshReplacement = null,
+                materialReplacement = SimpleMaterialReplacement(goldTitanMat),
+                skillReplacement = SecondaryReplacement(Modules.Skills.parentTeleportDef)
             });
 
             // Cursed Jellyfish
@@ -266,7 +389,45 @@ namespace MonsterVariants
                 armorBonus = 0f,
                 customInventory = wispInventory,
                 meshReplacement = null,
-                materialReplacement = null,
+                materialReplacement = MultiMaterialReplacement(new Dictionary<int, Material> { { 0, dunestriderMat }, { 1, blueFlameMat } }),
+                skillReplacement = null
+            });
+
+            // Almost-But-Not-Quite-Great Wisp
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "Wisp",
+                spawnRate = 50f,
+                variantTier = MonsterVariantTier.Uncommon,
+                sizeModifier = FlyingSizeModifier(1.1f),
+                healthMultiplier = 3f,
+                moveSpeedMultiplier = 0.8f,
+                attackSpeedMultiplier = 1f,
+                damageMultiplier = 1f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = null,
+                meshReplacement = null,
+                materialReplacement = MultiMaterialReplacement(new Dictionary<int, Material> { { 0, greaterWispBodyMat }, { 1, greaterWispFlameMat } }),
+                skillReplacement = PrimaryReplacement(Modules.Skills.wispCannonDef)
+            });
+
+            // Greatest Wisp
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "GreaterWisp",
+                spawnRate = Modules.Config.greatestWispSpawnRate.Value,
+                variantTier = MonsterVariantTier.Rare,
+                sizeModifier = FlyingSizeModifier(1.2f),
+                healthMultiplier = 2f,
+                moveSpeedMultiplier = 5f,
+                attackSpeedMultiplier = 2f,
+                damageMultiplier = 1f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = SimpleInventory("AlienHead", 5),
+                meshReplacement = null,
+                materialReplacement = MultiMaterialReplacement(new Dictionary<int, Material> { { 0, flameTrailMat }, { 1, wispFlameMat } }),
                 skillReplacement = null
             });
 
@@ -317,7 +478,7 @@ namespace MonsterVariants
                 sizeModifier = null,
                 healthMultiplier = 1f,
                 moveSpeedMultiplier = 1f,
-                attackSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 0.5f,
                 damageMultiplier = 1f,
                 armorMultiplier = 1f,
                 armorBonus = 0f,

@@ -16,15 +16,33 @@ namespace MonsterVariants.Modules
 
         internal static SkillDef doubleTapDef;
 
+        internal static SkillDef toxicExplosionDef;
+        internal static SkillDef heavyHeadbuttDef;
+
+        internal static SkillDef parentTeleportDef;
+
+        internal static SkillDef wispCannonDef;
+
         internal static void RegisterSkills()
         {
             LoadoutAPI.AddSkill(typeof(LaunchMissile));
             LoadoutAPI.AddSkill(typeof(NuclearNova));
             LoadoutAPI.AddSkill(typeof(SpawnNova));
+            LoadoutAPI.AddSkill(typeof(ExplosiveHeadbutt));
+            LoadoutAPI.AddSkill(typeof(LaunchingHeadbutt));
+            LoadoutAPI.AddSkill(typeof(ChargeWispCannon));
+            LoadoutAPI.AddSkill(typeof(ParentWarp));
 
             missileLaunchDef = NewSkillDef(new SerializableEntityStateType(typeof(LaunchMissile)), "Weapon");
             nuclearNovaDef = NewSkillDef(new SerializableEntityStateType(typeof(NuclearNova)), "Body");
             spawnNovaDef = NewSkillDef(new SerializableEntityStateType(typeof(SpawnNova)), "Body");
+            toxicExplosionDef = NewSkillDef(new SerializableEntityStateType(typeof(ExplosiveHeadbutt)), "Body");
+            heavyHeadbuttDef = NewSkillDef(new SerializableEntityStateType(typeof(LaunchingHeadbutt)), "Body");
+            wispCannonDef = NewSkillDef(new SerializableEntityStateType(typeof(ChargeWispCannon)), "Weapon");
+            parentTeleportDef = NewSkillDef(new SerializableEntityStateType(typeof(ParentWarp)), "Body");
+
+            parentTeleportDef.baseMaxStock = 2;
+            parentTeleportDef.baseRechargeInterval = 4f;
 
             doubleTapDef = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<SkillLocator>().primary.skillFamily.variants[0].skillDef;
         }
