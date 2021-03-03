@@ -30,6 +30,8 @@ namespace MonsterVariants.Modules
         public static ConfigEntry<float> spectralJellyfishSpawnRate;
         public static ConfigEntry<float> MOAJSpawnRate;
 
+        public static ConfigEntry<float> unstableVagrantSpawnRate;
+
         public static ConfigEntry<float> beetleGuardBruteSpawnRate;
         public static ConfigEntry<float> beetleGuardSharpshooterSpawnRate;
 
@@ -75,6 +77,8 @@ namespace MonsterVariants.Modules
 
             //oops
             if (nuclearJellyfishSpawnRate.Value == 5f) nuclearJellyfishSpawnRate.Value = 1f;
+
+            unstableVagrantSpawnRate = SpawnRateConfig("Unstable Vagrant", 2f);
 
             beetleGuardBruteSpawnRate = SpawnRateConfig("Beetle Guard Brute", 25f);
             beetleGuardSharpshooterSpawnRate = SpawnRateConfig("Beetle Guard Sharpshooter", 5f);

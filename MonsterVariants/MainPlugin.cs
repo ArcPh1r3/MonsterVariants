@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.3")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.4")]
 
     public class MainPlugin : BaseUnityPlugin
     {
@@ -58,7 +58,7 @@ namespace MonsterVariants
             AddSimpleVariant("Titan", Modules.Config.golemletSpawnRate.Value, MonsterVariantTier.Common, GroundSizeModifier(0.3f), 1f, 5f, 1f, 1f, 1f, 0f, 0); // Golemlet
             AddSimpleVariant("Titan", Modules.Config.colossalTitanSpawnRate.Value, MonsterVariantTier.Rare, GroundSizeModifier(3f), 3f, 0.5f, 1f, 2f, 1f, 50f, 3); // Colossus
 
-            AddSimpleVariant("Vagrant", 50f, MonsterVariantTier.Common, null, 1f, 1f, 1f, 1f, 1f, -40f); // Unstable Vagrant
+            AddSimpleVariant("Vagrant", Modules.Config.unstableVagrantSpawnRate.Value, MonsterVariantTier.Common, null, 1f, 1f, 1f, 1f, 1f, -50f); // Unstable Vagrant
 
             // flushed
             AddSimpleVariant("BeetleQueen2", 2, MonsterVariantTier.Common, GroundSizeModifier(0.25f), 0.8f, 5f, 1f, 1f, 1f, 0f); // Stupid
