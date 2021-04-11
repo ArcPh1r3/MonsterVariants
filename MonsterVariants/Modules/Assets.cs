@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using R2API;
 using UnityEngine;
 
 namespace MonsterVariants.Modules
@@ -20,8 +19,6 @@ namespace MonsterVariants.Modules
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MonsterVariants.monstervariants"))
                 {
                     mainAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                    var provider = new AssetBundleResourcesProvider("@MonsterVariants", mainAssetBundle);
-                    ResourcesAPI.AddProvider(provider);
                 }
             }
 

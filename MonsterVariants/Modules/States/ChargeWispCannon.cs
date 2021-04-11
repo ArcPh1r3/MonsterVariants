@@ -20,12 +20,12 @@ namespace MonsterVariants.Modules.States
 
         public override void OnEnter()
         {
-            if (this.goodState == null) this.goodState = Instantiate(typeof(ChargeCannons)) as ChargeCannons;
+            if (this.goodState == null) this.goodState = new ChargeCannons();
             this.attackString = this.goodState.attackString;
             this.effectPrefab = this.goodState.effectPrefab;
 
             base.OnEnter();
-            Util.PlayScaledSound(this.attackString, base.gameObject, this.attackSpeedStat * (2f / ChargeWispCannon.baseDuration));
+            Util.PlayAttackSpeedSound(this.attackString, base.gameObject, this.attackSpeedStat * (2f / ChargeWispCannon.baseDuration));
             this.duration = ChargeWispCannon.baseDuration / this.attackSpeedStat;
             Transform modelTransform = base.GetModelTransform();
 

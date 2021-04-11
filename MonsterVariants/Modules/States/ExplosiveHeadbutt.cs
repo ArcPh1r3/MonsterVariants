@@ -74,6 +74,7 @@ namespace MonsterVariants.Modules.States
 
         private void Detonate()
         {
+            if (this.hasExploded) return;
             this.hasExploded = true;
 
             if (base.modelLocator)

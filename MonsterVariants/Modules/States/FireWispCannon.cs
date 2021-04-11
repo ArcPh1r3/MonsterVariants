@@ -18,7 +18,7 @@ namespace MonsterVariants.Modules.States
 
         public override void OnEnter()
         {
-            if (this.goodState == null) this.goodState = Instantiate(typeof(FireCannons)) as FireCannons;
+            if (this.goodState == null) this.goodState = new FireCannons();
             this.effectPrefab = this.goodState.effectPrefab;
 
             base.OnEnter();
@@ -27,7 +27,7 @@ namespace MonsterVariants.Modules.States
 
             base.PlayAnimation("Body", "FireAttack1", "FireAttack1.playbackRate", this.duration);
 
-            EffectManager.SimpleMuzzleFlash(this.effectPrefab, base.gameObject, "Muzzle", false);
+            //EffectManager.SimpleMuzzleFlash(this.effectPrefab, base.gameObject, "Muzzle", false);
 
             if (base.isAuthority && base.modelLocator && base.modelLocator.modelTransform)
             {

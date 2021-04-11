@@ -27,15 +27,15 @@ namespace MonsterVariants.Modules
 
         internal static void RegisterSkills()
         {
-            LoadoutAPI.AddSkill(typeof(LaunchMissile));
-            LoadoutAPI.AddSkill(typeof(NuclearNova));
-            LoadoutAPI.AddSkill(typeof(SpawnNova));
-            LoadoutAPI.AddSkill(typeof(ExplosiveHeadbutt));
-            LoadoutAPI.AddSkill(typeof(LaunchingHeadbutt));
-            LoadoutAPI.AddSkill(typeof(ChargeWispCannon));
-            LoadoutAPI.AddSkill(typeof(ParentWarp));
-            LoadoutAPI.AddSkill(typeof(EnterLuckySit));
-            LoadoutAPI.AddSkill(typeof(DreamLuck));
+            Loadouts.AddSkill(typeof(LaunchMissile));
+            Loadouts.AddSkill(typeof(NuclearNova));
+            Loadouts.AddSkill(typeof(SpawnNova));
+            Loadouts.AddSkill(typeof(ExplosiveHeadbutt));
+            Loadouts.AddSkill(typeof(LaunchingHeadbutt));
+            Loadouts.AddSkill(typeof(ChargeWispCannon));
+            Loadouts.AddSkill(typeof(ParentWarp));
+            Loadouts.AddSkill(typeof(EnterLuckySit));
+            Loadouts.AddSkill(typeof(DreamLuck));
 
             missileLaunchDef = NewSkillDef(new SerializableEntityStateType(typeof(LaunchMissile)), "Weapon");
             nuclearNovaDef = NewSkillDef(new SerializableEntityStateType(typeof(NuclearNova)), "Body");
@@ -82,16 +82,15 @@ namespace MonsterVariants.Modules
             skillDef.forceSprintDuringState = false;
             skillDef.fullRestockOnAssign = true;
             skillDef.interruptPriority = InterruptPriority.Any;
-            skillDef.isBullets = false;
+            skillDef.resetCooldownTimerOnUse = false;
             skillDef.isCombatSkill = true;
             skillDef.mustKeyPress = false;
-            skillDef.noSprint = true;
+            skillDef.cancelSprintingOnActivation = true;
             skillDef.rechargeStock = 1;
             skillDef.requiredStock = 1;
-            skillDef.shootDelay = 0f;
             skillDef.stockToConsume = stockConsumed;
 
-            LoadoutAPI.AddSkillDef(skillDef);
+            Loadouts.AddSkillDef(skillDef);
 
             return skillDef;
         }

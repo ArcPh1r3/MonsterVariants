@@ -3,10 +3,15 @@ using RoR2;
 using RoR2.Skills;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Security;
+using System.Security.Permissions;
+
+[module: UnverifiableCode]
+[assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.4")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.5")]
 
     public class MainPlugin : BaseUnityPlugin
     {
@@ -18,10 +23,16 @@ namespace MonsterVariants
         {
             instance = this;
 
+            Modules.Loadouts.FixStates();
             Modules.Assets.PopulateAssets();
             Modules.Config.ReadConfig();
             Modules.Skills.RegisterSkills();
 
+            //RegisterVariants();
+        }
+
+        public void Start()
+        {
             RegisterVariants();
         }
 
@@ -31,11 +42,11 @@ namespace MonsterVariants
             ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
             Material lunarGolemMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
             Material goldTitanMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/TitanGoldBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[19].defaultMaterial);
-            Material perforatorMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("FireballsOnHit").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
-            Material glandMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("BeetleGland").rules[0].followerPrefab.GetComponentInChildren<Renderer>().material);
-            Material visionsMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("LunarPrimaryReplacement").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
+            Material perforatorMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.FireballsOnHit).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
+            Material glandMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.BeetleGland).rules[0].followerPrefab.GetComponentInChildren<Renderer>().material);
+            Material visionsMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.LunarPrimaryReplacement).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
             Material ghostMat = Resources.Load<Material>("Materials/matGhostEffect");
-            Material shatterspleenMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindItemDisplayRuleGroup("BleedOnHitAndExplode").rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
+            Material shatterspleenMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.BleedOnHitAndExplode).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
             Material solusMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/RoboBallBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
             Material flameTrailMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/ProjectileGhosts/FireMeatBallGhost").GetComponentInChildren<TrailRenderer>().material);
             Material dunestriderMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/ClayBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[2].defaultMaterial);
@@ -44,7 +55,7 @@ namespace MonsterVariants
             Material greaterWispFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[1].defaultMaterial);
             Material greaterWispBodyMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
             Material skeltalMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/Effects/BrotherDashEffect").transform.Find("Donut").GetComponent<ParticleSystemRenderer>().material);
-            missileLauncherDisplayPrefab = itemDisplayRuleSet.FindEquipmentDisplayRuleGroup("CommandMissile").rules[0].followerPrefab;
+            missileLauncherDisplayPrefab = itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Equipment.CommandMissile).rules[0].followerPrefab;
 
             Mesh beedlMesh = Modules.Assets.armoredMesh;
             //Mesh beedlSpeedMesh = Modules.Assets.speedyBeetleMesh;
@@ -498,7 +509,7 @@ namespace MonsterVariants
                 sizeModifier = null,
                 healthMultiplier = 1f,
                 moveSpeedMultiplier = 1f,
-                attackSpeedMultiplier = 0.5f,
+                attackSpeedMultiplier = 0.25f,
                 damageMultiplier = 1f,
                 armorMultiplier = 1f,
                 armorBonus = 0f,

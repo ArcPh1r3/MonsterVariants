@@ -130,7 +130,7 @@ namespace MonsterVariants.Components
                 // add an infusion as a cheap way to turn health bars red, lol
                 if (this.tier == MonsterVariantTier.Uncommon || this.tier == MonsterVariantTier.Rare)
                 {
-                    this.master.inventory.GiveItem(ItemIndex.Infusion);
+                    this.master.inventory.GiveItem(RoR2Content.Items.Infusion);
                 }
             }
         }
