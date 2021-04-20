@@ -11,7 +11,7 @@ using System.Security.Permissions;
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.5")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.7")]
 
     public class MainPlugin : BaseUnityPlugin
     {
@@ -28,10 +28,10 @@ namespace MonsterVariants
             Modules.Config.ReadConfig();
             Modules.Skills.RegisterSkills();
 
-            //RegisterVariants();
+            RoR2.ContentManagement.ContentManager.onContentPacksAssigned += Init;
         }
 
-        public void Start()
+        private void Init(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
         {
             RegisterVariants();
         }
@@ -80,6 +80,13 @@ namespace MonsterVariants
             {
                 SimpleItem("AlienHead", 20),
                 SimpleItem("SecondarySkillMagazine", 20)
+            };
+
+            // fucking templars
+            ItemInfo[] templarInventory = new ItemInfo[]
+            {
+                SimpleItem("Syringe", 10),
+                SimpleItem("Hoof", 10)
             };
 
             // Full Shield inventory
@@ -519,6 +526,25 @@ namespace MonsterVariants
                 skillReplacement = PrimaryReplacement(Modules.Skills.doubleTapDef)
             });
 
+            // Fucking Templar
+            AddVariant(new MonsterVariantInfo
+            {
+                bodyName = "ClayBruiser",
+                spawnRate = Modules.Config.fuckingTemplarSpawnRate.Value,
+                variantTier = MonsterVariantTier.Uncommon,
+                sizeModifier = GroundSizeModifier(1.2f),
+                healthMultiplier = 1f,
+                moveSpeedMultiplier = 1f,
+                attackSpeedMultiplier = 0.25f,
+                damageMultiplier = 1f,
+                armorMultiplier = 1f,
+                armorBonus = 0f,
+                customInventory = templarInventory,
+                meshReplacement = null,
+                materialReplacement = null,
+                skillReplacement = null
+            });
+
             // Dream Scavenger
             AddVariant(new MonsterVariantInfo
             {
@@ -612,27 +638,27 @@ namespace MonsterVariants
         }
 
         // helpers for adding simple variants
-        internal static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus)
+        public static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus)
         {
             AddSimpleVariant(bodyName, spawnRate, tier, size, health, moveSpeed, attackSpeed, damage, armor, armorBonus, 0, null, null);
         }
 
-        internal static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus, int alienHeads)
+        public static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus, int alienHeads)
         {
             AddSimpleVariant(bodyName, spawnRate, tier, size, health, moveSpeed, attackSpeed, damage, armor, armorBonus, alienHeads, null, null);
         }
 
-        internal static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus, int alienHeads, Material replacementMaterial)
+        public static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus, int alienHeads, Material replacementMaterial)
         {
             AddSimpleVariant(bodyName, spawnRate, tier, size, health, moveSpeed, attackSpeed, damage, armor, armorBonus, alienHeads, replacementMaterial, null);
         }
 
-        internal static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus, int alienHeads, Mesh replacementMesh)
+        public static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus, int alienHeads, Mesh replacementMesh)
         {
             AddSimpleVariant(bodyName, spawnRate, tier, size, health, moveSpeed, attackSpeed, damage, armor, armorBonus, alienHeads, null, replacementMesh);
         }
 
-        internal static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus, int alienHeads, Material replacementMaterial, Mesh replacementMesh)
+        public static void AddSimpleVariant(string bodyName, float spawnRate, MonsterVariantTier tier, MonsterSizeModifier size, float health, float moveSpeed, float attackSpeed, float damage, float armor, float armorBonus, int alienHeads, Material replacementMaterial, Mesh replacementMesh)
         {
             MonsterMaterialReplacement[] replacementMats = null;
             if (replacementMaterial != null) replacementMats = SimpleMaterialReplacement(replacementMaterial);
@@ -664,19 +690,34 @@ namespace MonsterVariants
         }
 
         // helper to simplify adding a variant
-        internal static void AddVariant(MonsterVariantInfo info)
+        public static void AddVariant(MonsterVariantInfo info)
         {
             Components.VariantHandler variantHandler = Resources.Load<GameObject>("Prefabs/CharacterBodies/" + info.bodyName + "Body").AddComponent<Components.VariantHandler>();
             variantHandler.Init(info);
         }
 
+        public static void AddModdedVariant(MonsterVariantInfo info)
+        {
+            On.RoR2.BodyCatalog.Init += (orig) =>
+            {
+                GameObject bodyPrefab = BodyCatalog.FindBodyPrefab(info.bodyName + "Body");
+                if (!bodyPrefab)
+                {
+                    Debug.LogError("Failed to add variant: " + info.bodyName + "Body does not exist.");
+                    return;
+                }
+
+                bodyPrefab.AddComponent<Components.VariantHandler>().Init(info);
+            };
+        }
+
         // helper to simplify creating an inventory with one item
-        internal static ItemInfo[] SimpleInventory(string itemName)
+        public static ItemInfo[] SimpleInventory(string itemName)
         {
             return SimpleInventory(itemName, 1);
         }
 
-        internal static ItemInfo[] SimpleInventory(string itemName, int itemCount)
+        public static ItemInfo[] SimpleInventory(string itemName, int itemCount)
         {
             ItemInfo info = SimpleItem(itemName, itemCount);
 
@@ -689,12 +730,12 @@ namespace MonsterVariants
             return newInfos;
         }
 
-        internal static ItemInfo SimpleItem(string itemName)
+        public static ItemInfo SimpleItem(string itemName)
         {
             return SimpleItem(itemName, 1);
         }
 
-        internal static ItemInfo SimpleItem(string itemName, int itemCount)
+        public static ItemInfo SimpleItem(string itemName, int itemCount)
         {
             ItemInfo info = ScriptableObject.CreateInstance<ItemInfo>();
             info.itemString = itemName;
@@ -704,7 +745,7 @@ namespace MonsterVariants
         }
 
         // all these aren't needed but it's nice to keep things clean up there
-        internal static MonsterSkillReplacement[] PrimaryReplacement(SkillDef skill)
+        public static MonsterSkillReplacement[] PrimaryReplacement(SkillDef skill)
         {
             MonsterSkillReplacement skillReplacement = ScriptableObject.CreateInstance<MonsterSkillReplacement>();
             skillReplacement.skillSlot = SkillSlot.Primary;
@@ -716,7 +757,7 @@ namespace MonsterVariants
             };
         }
 
-        internal static MonsterSkillReplacement[] SecondaryReplacement(SkillDef skill)
+        public static MonsterSkillReplacement[] SecondaryReplacement(SkillDef skill)
         {
             MonsterSkillReplacement skillReplacement = ScriptableObject.CreateInstance<MonsterSkillReplacement>();
             skillReplacement.skillSlot = SkillSlot.Secondary;
@@ -728,7 +769,7 @@ namespace MonsterVariants
             };
         }
 
-        internal static MonsterSkillReplacement[] UtilityReplacement(SkillDef skill)
+        public static MonsterSkillReplacement[] UtilityReplacement(SkillDef skill)
         {
             MonsterSkillReplacement skillReplacement = ScriptableObject.CreateInstance<MonsterSkillReplacement>();
             skillReplacement.skillSlot = SkillSlot.Utility;
@@ -740,7 +781,7 @@ namespace MonsterVariants
             };
         }
 
-        internal static MonsterSkillReplacement[] SpecialReplacement(SkillDef skill)
+        public static MonsterSkillReplacement[] SpecialReplacement(SkillDef skill)
         {
             MonsterSkillReplacement skillReplacement = ScriptableObject.CreateInstance<MonsterSkillReplacement>();
             skillReplacement.skillSlot = SkillSlot.Special;
@@ -753,7 +794,7 @@ namespace MonsterVariants
         }
 
         // eh don't need these but same as above
-        internal static MonsterSizeModifier GroundSizeModifier(float newSize)
+        public static MonsterSizeModifier GroundSizeModifier(float newSize)
         {
             MonsterSizeModifier sizeModifier = ScriptableObject.CreateInstance<MonsterSizeModifier>();
             sizeModifier.newSize = newSize;
@@ -762,7 +803,7 @@ namespace MonsterVariants
             return sizeModifier;
         }
 
-        internal static MonsterSizeModifier FlyingSizeModifier(float newSize)
+        public static MonsterSizeModifier FlyingSizeModifier(float newSize)
         {
             MonsterSizeModifier sizeModifier = ScriptableObject.CreateInstance<MonsterSizeModifier>();
             sizeModifier.newSize = newSize;
