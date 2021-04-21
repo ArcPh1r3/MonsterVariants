@@ -11,7 +11,7 @@ using System.Security.Permissions;
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.7")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.8")]
 
     public class MainPlugin : BaseUnityPlugin
     {
@@ -692,7 +692,18 @@ namespace MonsterVariants
         // helper to simplify adding a variant
         public static void AddVariant(MonsterVariantInfo info)
         {
-            Components.VariantHandler variantHandler = Resources.Load<GameObject>("Prefabs/CharacterBodies/" + info.bodyName + "Body").AddComponent<Components.VariantHandler>();
+            AddVariant(Resources.Load<GameObject>("Prefabs/CharacterBodies/" + info.bodyName + "Body"), info);
+        }
+
+        public static void AddVariant(GameObject bodyPrefab, MonsterVariantInfo info)
+        {
+            if (!bodyPrefab)
+            {
+                Debug.LogError("Failed to add variant: Invalid body prefab");
+                return;
+            }
+
+            Components.VariantHandler variantHandler = bodyPrefab.AddComponent<Components.VariantHandler>();
             variantHandler.Init(info);
         }
 
@@ -700,6 +711,8 @@ namespace MonsterVariants
         {
             On.RoR2.BodyCatalog.Init += (orig) =>
             {
+                orig();
+
                 GameObject bodyPrefab = BodyCatalog.FindBodyPrefab(info.bodyName + "Body");
                 if (!bodyPrefab)
                 {
