@@ -11,6 +11,8 @@ namespace MonsterVariants.Components
     {
         [SyncVar]
         public bool isVariant = false;
+        
+        public bool givesRewards;
 
         public float spawnRate = 1f;
         public float healthModifier = 1f;
