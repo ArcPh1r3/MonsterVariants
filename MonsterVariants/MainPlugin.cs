@@ -11,13 +11,30 @@ using System.Security.Permissions;
 
 namespace MonsterVariants
 {
-    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.8")]
+    [BepInPlugin("com.rob.MonsterVariants", "MonsterVariants", "1.3.9")]
 
     public class MainPlugin : BaseUnityPlugin
     {
         public static MainPlugin instance;
 
         internal static GameObject missileLauncherDisplayPrefab; // gotta cache this for lemurians
+
+        // fuck
+        private static Material lunarGolemMat;
+        private static Material goldTitanMat;
+        private static Material perforatorMat;
+        private static Material glandMat;
+        private static Material visionsMat;
+        private static Material ghostMat;
+        private static Material shatterspleenMat;
+        private static Material solusMat;
+        private static Material flameTrailMat;
+        private static Material dunestriderMat;
+        private static Material blueFlameMat;
+        private static Material wispFlameMat;
+        private static Material greaterWispFlameMat;
+        private static Material greaterWispBodyMat;
+        private static Material skeltalMat;
 
         public void Awake()
         {
@@ -28,7 +45,31 @@ namespace MonsterVariants
             Modules.Config.ReadConfig();
             Modules.Skills.RegisterSkills();
 
+            GrabMaterials();
+
             RoR2.ContentManagement.ContentManager.onContentPacksAssigned += Init;
+        }
+
+        private void GrabMaterials()
+        {
+            // gather materials and meshes to use for variants
+            ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+            lunarGolemMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            goldTitanMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/TitanGoldBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[19].defaultMaterial);
+            perforatorMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.FireballsOnHit).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
+            glandMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.BeetleGland).rules[0].followerPrefab.GetComponentInChildren<Renderer>().material);
+            visionsMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.LunarPrimaryReplacement).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
+            ghostMat = Resources.Load<Material>("Materials/matGhostEffect");
+            shatterspleenMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.BleedOnHitAndExplode).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
+            solusMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/RoboBallBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            flameTrailMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/ProjectileGhosts/FireMeatBallGhost").GetComponentInChildren<TrailRenderer>().material);
+            dunestriderMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/ClayBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[2].defaultMaterial);
+            blueFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/Effects/MuzzleFlashes/MuzzleflashLunarGolemTwinShot").transform.Find("FlameCloud_Ps").GetComponent<ParticleSystemRenderer>().material);
+            wispFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/WispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[1].defaultMaterial);
+            greaterWispFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[1].defaultMaterial);
+            greaterWispBodyMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
+            skeltalMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/Effects/BrotherDashEffect").transform.Find("Donut").GetComponent<ParticleSystemRenderer>().material);
+            missileLauncherDisplayPrefab = itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Equipment.CommandMissile).rules[0].followerPrefab;
         }
 
         private void Init(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
@@ -38,25 +79,6 @@ namespace MonsterVariants
 
         internal static void RegisterVariants()
         {
-            // gather materials and meshes to use for variants
-            ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
-            Material lunarGolemMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
-            Material goldTitanMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/TitanGoldBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[19].defaultMaterial);
-            Material perforatorMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.FireballsOnHit).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
-            Material glandMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.BeetleGland).rules[0].followerPrefab.GetComponentInChildren<Renderer>().material);
-            Material visionsMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.LunarPrimaryReplacement).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
-            Material ghostMat = Resources.Load<Material>("Materials/matGhostEffect");
-            Material shatterspleenMat = UnityEngine.Object.Instantiate(itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Items.BleedOnHitAndExplode).rules[0].followerPrefab.GetComponentInChildren<MeshRenderer>().material);
-            Material solusMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/RoboBallBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
-            Material flameTrailMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/ProjectileGhosts/FireMeatBallGhost").GetComponentInChildren<TrailRenderer>().material);
-            Material dunestriderMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/ClayBossBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[2].defaultMaterial);
-            Material blueFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/Effects/MuzzleFlashes/MuzzleflashLunarGolemTwinShot").transform.Find("FlameCloud_Ps").GetComponent<ParticleSystemRenderer>().material);
-            Material wispFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/WispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[1].defaultMaterial);
-            Material greaterWispFlameMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[1].defaultMaterial);
-            Material greaterWispBodyMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<CharacterModel>().baseRendererInfos[0].defaultMaterial);
-            Material skeltalMat = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("Prefabs/Effects/BrotherDashEffect").transform.Find("Donut").GetComponent<ParticleSystemRenderer>().material);
-            missileLauncherDisplayPrefab = itemDisplayRuleSet.FindDisplayRuleGroup(RoR2Content.Equipment.CommandMissile).rules[0].followerPrefab;
-
             Mesh beedlMesh = Modules.Assets.armoredMesh;
             //Mesh beedlSpeedMesh = Modules.Assets.speedyBeetleMesh;
 
@@ -133,6 +155,7 @@ namespace MonsterVariants
                 bodyName = "Beetle",
                 spawnRate = Modules.Config.speedyBeetleSpawnRate.Value,
                 variantTier = MonsterVariantTier.Common,
+                aiModifier = MonsterVariantAIModifier.ForceSprint,
                 sizeModifier = null,
                 healthMultiplier = 1f,
                 moveSpeedMultiplier = 1f,
@@ -150,6 +173,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Beetle",
+                overrideName = "Toxic Beetle",
                 spawnRate = Modules.Config.toxicBeetleSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = null,
@@ -169,6 +193,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Beetle",
+                overrideName = "BattleBeetle",
                 spawnRate = Modules.Config.battleBeetleSpawnRate.Value,
                 variantTier = MonsterVariantTier.Common,
                 sizeModifier = null,
@@ -207,6 +232,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Lemurian",
+                overrideName = "Flamethrower Lemurian",
                 spawnRate = Modules.Config.flamethrowerLemurianSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = GroundSizeModifier(1.1f),
@@ -226,6 +252,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Lemurian",
+                overrideName = "Badass Lemurian",
                 spawnRate = Modules.Config.badassLemurianSpawnRate.Value,
                 variantTier = MonsterVariantTier.Common,
                 sizeModifier = null,
@@ -245,6 +272,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "LemurianBruiser",
+                overrideName = "Molten Elder Lemurian",
                 spawnRate = Modules.Config.moltenElderLemurianSpawnRate.Value,
                 variantTier = MonsterVariantTier.Uncommon,
                 sizeModifier = GroundSizeModifier(1.2f),
@@ -264,6 +292,8 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Jellyfish",
+                overrideName = "Nuclear Jellyfish",
+                unique = true,
                 spawnRate = Modules.Config.nuclearJellyfishSpawnRate.Value,
                 variantTier = MonsterVariantTier.Common,
                 sizeModifier = FlyingSizeModifier(2f),
@@ -283,6 +313,8 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Jellyfish",
+                overrideName = "M.O.A.J.",
+                unique = true,
                 spawnRate = Modules.Config.MOAJSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = FlyingSizeModifier(4f),
@@ -302,6 +334,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Golem",
+                overrideName = "Full-Auto Golem",
                 spawnRate = Modules.Config.fullAutoGolemSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = null,
@@ -321,6 +354,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Golem",
+                overrideName = "Overcharged Golem",
                 spawnRate = Modules.Config.overchargedGolemSpawnRate.Value,
                 variantTier = MonsterVariantTier.Common,
                 sizeModifier = null,
@@ -340,6 +374,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Golem",
+                overrideName = "Rush Golem",
                 spawnRate = Modules.Config.rushGolemSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = GroundSizeModifier(0.6f),
@@ -359,6 +394,8 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Jellyfish",
+                overrideName = "Cursed Jellyfish",
+                unique = true,
                 spawnRate = Modules.Config.cursedJellyfishSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = null,
@@ -378,6 +415,8 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Jellyfish",
+                overrideName = "Spectral Jellyfish",
+                unique = true,
                 spawnRate = Modules.Config.spectralJellyfishSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = FlyingSizeModifier(0.8f),
@@ -397,6 +436,8 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Wisp",
+                overrideName = "Infernal Wisp",
+                unique = true,
                 spawnRate = Modules.Config.infernalWispSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = FlyingSizeModifier(1.2f),
@@ -416,6 +457,8 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Wisp",
+                overrideName = "Almost-But-Not-Quite-Great Wisp",
+                unique = true,
                 spawnRate = Modules.Config.almostButNotQuiteGreatWispSpawnRate.Value,
                 variantTier = MonsterVariantTier.Uncommon,
                 sizeModifier = FlyingSizeModifier(1.1f),
@@ -435,6 +478,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "GreaterWisp",
+                overrideName = "Greatest Wisp",
                 spawnRate = Modules.Config.greatestWispSpawnRate.Value,
                 variantTier = MonsterVariantTier.Rare,
                 sizeModifier = FlyingSizeModifier(1.2f),
@@ -454,6 +498,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Bison",
+                overrideName = "Albino Bison",
                 spawnRate = Modules.Config.albinoBisonSpawnRate.Value,
                 variantTier = MonsterVariantTier.Common,
                 sizeModifier = GroundSizeModifier(1.2f),
@@ -473,6 +518,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Imp",
+                overrideName = "Clotted Imp",
                 spawnRate = Modules.Config.clottedImpSpawnRate.Value,
                 variantTier = MonsterVariantTier.Uncommon,
                 sizeModifier = GroundSizeModifier(0.8f),
@@ -492,6 +538,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Vulture",
+                overrideName = "Artillery Vulture",
                 spawnRate = Modules.Config.artilleryVultureSpawnRate.Value,
                 variantTier = MonsterVariantTier.Uncommon,
                 sizeModifier = GroundSizeModifier(1.25f),
@@ -530,6 +577,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "ClayBruiser",
+                overrideName = "Fucking Templar",
                 spawnRate = Modules.Config.fuckingTemplarSpawnRate.Value,
                 variantTier = MonsterVariantTier.Uncommon,
                 sizeModifier = GroundSizeModifier(1.2f),
@@ -549,6 +597,7 @@ namespace MonsterVariants
             AddVariant(new MonsterVariantInfo
             {
                 bodyName = "Scav",
+                overrideName = "Dream",
                 spawnRate = Modules.Config.dreamScavSpawnRate.Value,
                 variantTier = MonsterVariantTier.Common,
                 sizeModifier = null,
@@ -563,7 +612,6 @@ namespace MonsterVariants
                 materialReplacement = null,
                 skillReplacement = UtilityReplacement(Modules.Skills.dreamLuckDef)
             });
-
         }
 
         // helper for simplifying mat replacements

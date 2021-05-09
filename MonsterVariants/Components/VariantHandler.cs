@@ -12,6 +12,10 @@ namespace MonsterVariants.Components
         [SyncVar]
         public bool isVariant = false;
 
+        public bool unique;
+
+        public string overrideName;
+
         public float spawnRate = 1f;
         public float healthModifier = 1f;
         public float moveSpeedModifier = 1f;
@@ -21,6 +25,7 @@ namespace MonsterVariants.Components
         public float armorBonus = 0f;
 
         public MonsterVariantTier tier;
+        public MonsterVariantAIModifier aiModifier;
 
         public MonsterMaterialReplacement[] materialReplacements;
         public MonsterMeshReplacement[] meshReplacements;
@@ -37,9 +42,13 @@ namespace MonsterVariants.Components
 
         public void Init(MonsterVariantInfo variantInfo)
         {
+            this.overrideName = variantInfo.overrideName;
+
             this.spawnRate = variantInfo.spawnRate;
+            this.unique = variantInfo.unique;
 
             this.tier = variantInfo.variantTier;
+            this.aiModifier = variantInfo.aiModifier;
 
             this.customInventory = variantInfo.customInventory;
 
@@ -78,6 +87,14 @@ namespace MonsterVariants.Components
         {
             if (this.isVariant)
             {
+                if (this.unique)
+                {
+                    foreach (VariantHandler i in this.GetComponents<VariantHandler>())
+                    {
+                        if (i && i != this) Destroy(i);
+                    }
+                }
+
                 this.body = base.GetComponent<CharacterBody>();
                 if (this.body)
                 {
@@ -86,6 +103,31 @@ namespace MonsterVariants.Components
                     if (this.master)
                     {
                         this.ApplyBuffs();
+
+                        if (this.aiModifier.HasFlag(MonsterVariantAIModifier.Unstable))
+                        {
+                            foreach (AISkillDriver i in this.master.GetComponents<AISkillDriver>())
+                            {
+                                if (i)
+                                {
+                                    i.minTargetHealthFraction = Mathf.NegativeInfinity;
+                                    i.maxTargetHealthFraction = Mathf.Infinity;
+                                    i.minUserHealthFraction = Mathf.NegativeInfinity;
+                                    i.maxUserHealthFraction = Mathf.Infinity;
+                                }
+                            }
+                        }
+
+                        if (this.aiModifier.HasFlag(MonsterVariantAIModifier.ForceSprint))
+                        {
+                            foreach (AISkillDriver i in this.master.GetComponents<AISkillDriver>())
+                            {
+                                if (i)
+                                {
+                                    i.shouldSprint = true;
+                                }
+                            }
+                        }
 
                         if (this.name == "VagrantBody(Clone)")
                         {
@@ -137,6 +179,8 @@ namespace MonsterVariants.Components
 
         private void ModifyStats()
         {
+            if (this.overrideName != "") this.body.baseNameToken = this.overrideName;
+
             this.body.baseMaxHealth *= this.healthModifier;
             this.body.baseMoveSpeed *= this.moveSpeedModifier;
             this.body.baseAttackSpeed *= this.attackSpeedModifier;

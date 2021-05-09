@@ -10,6 +10,15 @@ namespace MonsterVariants
         // name of the body to apply this variant info to
         public string bodyName;
 
+        // new name of the variant
+        public string overrideName;
+
+        // eh
+        public bool unique;
+
+        // ai modifications
+        public MonsterVariantAIModifier aiModifier;
+
         // spawn rate of the variant: 0 - 100
         public float spawnRate;
 
@@ -89,5 +98,12 @@ namespace MonsterVariants
         Common,
         Uncommon,
         Rare
+    };
+
+    public enum MonsterVariantAIModifier
+    {
+        Default,
+        Unstable,
+        ForceSprint
     };
 }
