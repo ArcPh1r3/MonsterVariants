@@ -45,8 +45,8 @@ namespace MonsterVariants.Modules
             wispCannonDef = NewSkillDef(new SerializableEntityStateType(typeof(ChargeWispCannon)), "Weapon");
             parentTeleportDef = NewSkillDef(new SerializableEntityStateType(typeof(ParentWarp)), "Body");
 
-            parentTeleportDef.baseMaxStock = 2;
-            parentTeleportDef.baseRechargeInterval = 8f;
+            parentTeleportDef.baseMaxStock = 1;
+            parentTeleportDef.baseRechargeInterval = 4f;
             parentTeleportDef.requiredStock = 1;
             parentTeleportDef.stockToConsume = 1;
 
