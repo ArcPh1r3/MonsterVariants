@@ -128,21 +128,6 @@ namespace MonsterVariants.Components
                                 }
                             }
                         }
-
-                        if (this.name == "VagrantBody(Clone)")
-                        {
-                            // i really should not be hard coding this
-                            foreach(AISkillDriver i in this.master.GetComponents<AISkillDriver>())
-                            {
-                                if (i)
-                                {
-                                    i.minTargetHealthFraction = Mathf.NegativeInfinity;
-                                    i.maxTargetHealthFraction = Mathf.Infinity;
-                                    i.minUserHealthFraction = Mathf.NegativeInfinity;
-                                    i.maxUserHealthFraction = Mathf.Infinity;
-                                }
-                            }
-                        }
                     }
                 }
             }
